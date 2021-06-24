@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "125550797669",
+    "project_id": "ride-ed154",
+    "storage_bucket": "ride-ed154.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125550797669:android:38488eaf9fca297d1cf78c",
+        "android_client_info": {
+          "package_name": "com.example.riding_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125550797669-o42nbea2ju30tl575j59qgtub4gpqrml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5Xc1qw4SsRUD55iZlu5CXvcnchTxCRkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125550797669-o42nbea2ju30tl575j59qgtub4gpqrml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
