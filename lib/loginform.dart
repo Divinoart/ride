@@ -155,8 +155,8 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 25.0),
               _isLoading
                   ? SizedBox(
-                      height: 20,
-                      width: 20,
+                      height: 50,
+                      width: 50,
                       child: Center(
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(Color(0xffFFDF00)),

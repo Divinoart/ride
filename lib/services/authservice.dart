@@ -56,8 +56,8 @@ class AuthService {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.black,
           content: Text(e.toString(),
-              style: TextStyle(
-                  color: Colors.white, fontFamily: 'Montserrat sans-serif'))));
+              style:
+                  TextStyle(color: Colors.white, fontFamily: 'Montserrat'))));
     }
   }
 }
