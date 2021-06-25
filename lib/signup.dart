@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:riding_app/loginform.dart';
 import 'package:riding_app/services/authservice.dart';
 
 class SignUp extends StatefulWidget {
@@ -12,7 +13,8 @@ class _SignUpState extends State<SignUp> {
   final formKey = new GlobalKey<FormState>();
 
   //Cheap way to look at the loading state
-  bool isLoading = false;
+  bool _isLoading = false;
+  bool _isVisible = false;
 
   String email, password;
 
@@ -44,7 +46,9 @@ class _SignUpState extends State<SignUp> {
       builder: (BuildContext scaffoldContext) => Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Form(key: formKey, child: _buildSignUpForm(scaffoldContext))),
+          child: SingleChildScrollView(
+              child: Form(
+                  key: formKey, child: _buildSignUpForm(scaffoldContext)))),
     ));
   }
 
@@ -52,35 +56,34 @@ class _SignUpState extends State<SignUp> {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           children: [
             SizedBox(height: 75.0),
-            Container(
-                height: 125.0,
-                width: 200.0,
-                child: Stack(
-                  children: [
-                    Text('Signup',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat sans-serif',
-                            fontSize: 60.0)),
-                    Positioned(
-                        top: 62.0,
-                        left: 170.0,
-                        child: Container(
-                            height: 10.0,
-                            width: 10.0,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xffFFDF00))))
-                  ],
-                )),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('Signup',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 60.0,
+                        fontWeight: FontWeight.bold)),
+                Text('.',
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 60.0,
+                        color: Color(0xffFFDF00),
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
             SizedBox(height: 25.0),
             TextFormField(
+                style: TextStyle(color: Colors.black, fontFamily: 'Montserrat'),
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     labelText: 'EMAIL',
                     labelStyle: TextStyle(
-                        fontFamily: 'Montserrat sans-serif',
+                        fontFamily: 'Montserrat',
                         fontSize: 12.0,
                         color: Colors.grey.withOpacity(0.5)),
                     focusedBorder: UnderlineInputBorder(
@@ -91,29 +94,46 @@ class _SignUpState extends State<SignUp> {
                 },
                 validator: (value) =>
                     value.isEmpty ? 'Email is required' : validateEmail(value)),
+            SizedBox(height: 15.0),
             TextFormField(
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'Montserrat'),
                 decoration: InputDecoration(
+                    alignLabelWithHint: true,
+                    suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isVisible = !_isVisible;
+                          });
+                        },
+                        child: Icon(_isVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility)),
                     labelText: 'PASSWORD',
                     labelStyle: TextStyle(
-                        fontFamily: 'Montserrat sans',
+                        fontFamily: 'Montserrat',
                         fontSize: 12.0,
                         color: Colors.grey.withOpacity(0.5)),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     )),
-                obscureText: true,
+                obscureText: _isVisible,
                 onChanged: (value) {
                   this.password = value;
                 },
                 validator: (value) =>
                     value.isEmpty ? 'Password is required' : null),
             SizedBox(height: 25.0),
-            isLoading
+            _isLoading
                 ? SizedBox(
-                    height: 40,
-                    width: 40,
+                    height: 20,
+                    width: 20,
                     child: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Color(0xffFFDF00)),
+                      ),
                     ),
                   )
                 : SizedBox(),
@@ -137,19 +157,39 @@ class _SignUpState extends State<SignUp> {
                                   color: Colors.white,
                                   fontFamily: 'Montserrat sans-serif'))))),
             ),
+            SizedBox(height: 25.0),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('Alread a part of ride?',
+                  style:
+                      TextStyle(color: Colors.black, fontFamily: 'Montserrat')),
+              SizedBox(width: 5.0),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignIn()),
+                    );
+                  },
+                  child: Text('Login',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline)))
+            ])
           ],
         ));
   }
 
   Future<void> signUp(BuildContext scaffoldContext) async {
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     await AuthService().signUpUser(email, password, scaffoldContext);
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
   }
 }

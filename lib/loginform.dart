@@ -14,7 +14,8 @@ class _SignInState extends State<SignIn> {
   final formKey = new GlobalKey<FormState>();
 
   //Cheap way to look at the loading state
-  bool isLoading = false;
+  bool _isLoading = false;
+  bool _isVisible = false;
 
   String email, password;
 
@@ -46,147 +47,176 @@ class _SignInState extends State<SignIn> {
       builder: (BuildContext scaffoldContext) => Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: Form(key: formKey, child: _buildLoginForm(scaffoldContext))),
+          child: SingleChildScrollView(
+              child:
+                  Form(key: formKey, child: _buildLoginForm(scaffoldContext)))),
     ));
   }
 
   _buildLoginForm(BuildContext scaffoldContext) {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: ListView(children: [
-          SizedBox(height: 75.0),
-          Container(
-              height: 125.0,
-              width: 200.0,
-              child: Stack(
+        child: ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              SizedBox(height: 75.0),
+              Row(
                 children: [
                   Text('Hello',
                       style: TextStyle(
-                          fontFamily: 'Montserrat sans-serif',
+                          fontFamily: 'Montserrat',
                           fontSize: 60.0,
                           fontWeight: FontWeight.bold)),
-                  Positioned(
-                      top: 50.0,
-                      child: Text('There',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat sans-serif',
-                              fontSize: 60.0,
-                              fontWeight: FontWeight.bold))),
-                  Positioned(
-                      top: 97.0,
-                      left: 155.0,
-                      child: Container(
-                          height: 10.0,
-                          width: 10.0,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffFFDF00))))
                 ],
-              )),
-          SizedBox(height: 25.0),
-          TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'EMAIL',
-                  labelStyle: TextStyle(
-                      fontFamily: 'Montserrat sans-serif',
-                      fontSize: 12.0,
-                      color: Colors.grey.withOpacity(0.5)),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  )),
-              onChanged: (value) {
-                this.email = value;
-              },
-              validator: (value) =>
-                  value.isEmpty ? 'Email is required' : validateEmail(value)),
-          TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'PASSWORD',
-                  labelStyle: TextStyle(
-                      fontFamily: 'Montserrat sans',
-                      fontSize: 12.0,
-                      color: Colors.grey.withOpacity(0.5)),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  )),
-              obscureText: true,
-              onChanged: (value) {
-                this.password = value;
-              },
-              validator: (value) =>
-                  value.isEmpty ? 'Password is required' : null),
-          SizedBox(height: 5.0),
-          GestureDetector(
-              onTap: () {},
-              child: Container(
-                  alignment: Alignment(1.0, 0.0),
-                  padding: EdgeInsets.only(top: 15.0, left: 20.0),
-                  child: InkWell(
-                      child: Text('Forgot Password',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Montserrat sans',
-                              fontSize: 11.0,
-                              decoration: TextDecoration.underline))))),
-          SizedBox(height: 25.0),
-          isLoading
-              ? SizedBox(
-                  height: 40,
-                  width: 40,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : SizedBox(),
-          SizedBox(height: 25.0),
-          GestureDetector(
-            onTap: () {
-              if (checkFields()) {
-                signIn(scaffoldContext);
-              }
-            },
-            child: Container(
-                height: 50.0,
-                child: Material(
-                    borderRadius: BorderRadius.circular(25.0),
-                    shadowColor: Colors.black,
-                    color: Colors.black,
-                    elevation: 7.0,
-                    child: Center(
-                        child: Text('LOGIN',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Montserrat sans'))))),
-          ),
-          SizedBox(height: 25.0),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('New to Ride ?'),
-            SizedBox(width: 5.0),
-            InkWell(
+              ),
+              SizedBox(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('There',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 60.0,
+                            fontWeight: FontWeight.bold)),
+                    Text('.',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 60.0,
+                            color: Color(0xffFFDF00),
+                            fontWeight: FontWeight.bold))
+                  ],
+                ),
+              ),
+              SizedBox(height: 25.0),
+              TextFormField(
+                  style:
+                      TextStyle(color: Colors.black, fontFamily: 'Montserrat'),
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      labelText: 'EMAIL',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 12.0,
+                          color: Colors.grey.withOpacity(0.5)),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      )),
+                  onChanged: (value) {
+                    this.email = value;
+                  },
+                  validator: (value) => value.isEmpty
+                      ? 'Email is required'
+                      : validateEmail(value)),
+              SizedBox(height: 15.0),
+              TextFormField(
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat'),
+                  decoration: InputDecoration(
+                      alignLabelWithHint: true,
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                          child: Icon(_isVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility)),
+                      labelText: 'PASSWORD',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 12.0,
+                          color: Colors.grey.withOpacity(0.5)),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      )),
+                  obscureText: _isVisible,
+                  onChanged: (value) {
+                    this.password = value;
+                  },
+                  validator: (value) =>
+                      value.isEmpty ? 'Password is required' : null),
+              SizedBox(height: 5.0),
+              GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                      alignment: Alignment(1.0, 0.0),
+                      padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                      child: InkWell(
+                          child: Text('Forgot Password',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 11.0,
+                                  decoration: TextDecoration.underline))))),
+              SizedBox(height: 25.0),
+              _isLoading
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Color(0xffFFDF00)),
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+              SizedBox(height: 25.0),
+              GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUp()),
-                  );
+                  if (checkFields()) {
+                    signIn(scaffoldContext);
+                  }
                 },
-                child: Text('Register',
-                    style: TextStyle(
+                child: Container(
+                    height: 50.0,
+                    child: Material(
+                        borderRadius: BorderRadius.circular(25.0),
+                        shadowColor: Colors.black,
                         color: Colors.black,
-                        fontFamily: 'Montserrat sans-serif',
-                        decoration: TextDecoration.underline)))
-          ])
-        ]));
+                        elevation: 7.0,
+                        child: Center(
+                            child: Text('LOGIN',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'))))),
+              ),
+              SizedBox(height: 25.0),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text('New to Ride?',
+                    style: TextStyle(
+                        color: Colors.black, fontFamily: 'Montserrat')),
+                SizedBox(width: 5.0),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUp()),
+                      );
+                    },
+                    child: Text('Register',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline)))
+              ])
+            ]));
   }
 
   Future<void> signIn(BuildContext scaffoldContext) async {
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     await AuthService().signIn(email, password, scaffoldContext);
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
   }
 }

@@ -14,7 +14,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     //Size  = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -30,7 +32,7 @@ class _LoginState extends State<Login> {
                     child: Image.asset("assets/images/cover.jpeg", scale: 3.0),
                   ),
                   SizedBox(
-                    height: 25.0,
+                    height: 15.0,
                   ),
                   Flexible(
                     child: Container(
@@ -47,20 +49,28 @@ class _LoginState extends State<Login> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("Let'z Create a fun ride together",
+                              Text("Let'z Create a fun ride",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontFamily: 'Montserrat-ExtraBold Sans',
+                                    fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0,
                                     color: Colors.black,
+                                  )),
+                              Text("together",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40.0,
+                                    color: Color(0xffFFDF00),
                                   )),
                               SizedBox(
                                 height: 50.0,
                               ),
                               Container(
                                 height: 50.0,
-                                width: 250,
+                                width: MediaQuery.of(context).size.width - 20,
                                 child: Material(
                                     borderRadius: BorderRadius.circular(50.0),
                                     shadowColor: Colors.black,
@@ -85,11 +95,11 @@ class _LoginState extends State<Login> {
                                         ))),
                               ),
                               SizedBox(
-                                height: 50.0,
+                                height: 25.0,
                               ),
                               Container(
                                 height: 50.0,
-                                width: 250.0,
+                                width: MediaQuery.of(context).size.width - 20,
                                 child: Material(
                                     borderRadius: BorderRadius.circular(50.0),
                                     shadowColor: Colors.black,
