@@ -8,40 +8,56 @@ import '../dashboard.dart';
 import 'package:riding_app/loginform.dart';
 
 class AuthService {
-
-
   handleAuth() {
     return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (BuildContext context, snapshot){
-        if(snapshot.hasData){
-          return Dashboard();
-        } else {
-          return SignIn();
-        }
-      });
-
-
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasData) {
+            return Dashboard();
+          } else {
+            return SignIn();
+          }
+        });
   }
 
-  signIn(String email, String password, context) {
-    FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
-       print('Welcome '  + email);
-      if (value.user != null){
+  Future<void> signIn(String email, String password, context) async {
+    try {
+      var value = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      if (value.user != null) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Dashboard()),
         );
       }
-
-    }).catchError((e) {
-
-    });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.black,
+          content: Text(e.toString(),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: 'Montserrat sans-serif'))));
+    }
   }
-  signUp(String email, String password) {
-    return FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
 
+  Future<void> signUpUser(
+      String email, String password, BuildContext context) async {
+    try {
+      var value = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (value.user != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Dashboard()),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.black,
+          content: Text(e.toString(),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: 'Montserrat sans-serif'))));
+    }
   }
 }

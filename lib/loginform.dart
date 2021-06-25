@@ -13,6 +13,9 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final formKey = new GlobalKey<FormState>();
 
+  //Cheap way to look at the loading state
+  bool isLoading = false;
+
   String email, password;
 
   //To check fields during submit
@@ -39,122 +42,151 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Form(key: formKey, child: _buildLoginForm())));
+        body: Builder(
+      builder: (BuildContext scaffoldContext) => Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Form(key: formKey, child: _buildLoginForm(scaffoldContext))),
+    ));
   }
 
-  _buildLoginForm() {
+  _buildLoginForm(BuildContext scaffoldContext) {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-    child: ListView(children: [
-    SizedBox(height: 75.0),
-    Container(
-    height: 125.0,
-    width: 200.0,
-    child: Stack(
-    children: [
-    Text('Hello',
-    style: TextStyle(fontFamily: 'Montserrat sans-serif', fontSize: 60.0, fontWeight: FontWeight.bold)),
-    Positioned(
-    top: 50.0,
-    child: Text('There',
-    style:
-    TextStyle(fontFamily: 'Montserrat sans-serif', fontSize: 60.0, fontWeight: FontWeight.bold))),
-    Positioned(
-    top: 97.0,
-    left: 155.0,
-    child: Container(
-    height: 10.0,
-    width: 10.0,
-    decoration: BoxDecoration(
-    shape: BoxShape.circle, color: Color(0xffFFDF00))))
-    ],
-    )),
-    SizedBox(height: 25.0),
-    TextFormField(
-    decoration: InputDecoration(
-    labelText: 'EMAIL',
-    labelStyle: TextStyle(
-    fontFamily: 'Montserrat sans-serif',
-    fontSize: 12.0,
-    color: Colors.grey.withOpacity(0.5)),
-    focusedBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: Colors.black),
-    )),
-    onChanged: (value) {
-    this.email = value;
-    },
-    validator: (value) =>
-    value.isEmpty ? 'Email is required' : validateEmail(value)),
-    TextFormField(
-    decoration: InputDecoration(
-    labelText: 'PASSWORD',
-    labelStyle: TextStyle(
-    fontFamily: 'Montserrat sans',
-    fontSize: 12.0,
-    color: Colors.grey.withOpacity(0.5)),
-    focusedBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: Colors.black),
-    )),
-    obscureText: true,
-    onChanged: (value) {
-    this.password = value;
-    },
-    validator: (value) =>
-    value.isEmpty ? 'Password is required' : null),
-    SizedBox(height: 5.0),
-    GestureDetector(
-    onTap: () {
-
-    },
-    child: Container(
-    alignment: Alignment(1.0, 0.0),
-    padding: EdgeInsets.only(top: 15.0, left: 20.0),
-    child: InkWell(
-    child: Text('Forgot Password',
-    style: TextStyle(
-    color: Colors.black,
-    fontFamily: 'Montserrat sans',
-    fontSize: 11.0,
-    decoration: TextDecoration.underline))))),
-    SizedBox(height: 50.0),
-    GestureDetector(
-    onTap: () {
-        if (checkFields()) AuthService().signIn(email, password, context);
-    },
-    child: Container(
-    height: 50.0,
-    child: Material(
-    borderRadius: BorderRadius.circular(25.0),
-    shadowColor: Colors.black,
-    color: Colors.black,
-    elevation: 7.0,
-    child: Center(
-    child: Text('LOGIN',
-    style: TextStyle(
-    color: Colors.white, fontFamily: 'Montserrat sans'))))),
-    ),
-
-      SizedBox(height: 25.0),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text('New to Ride ?'),
-        SizedBox(width: 5.0),
-        InkWell(
+        child: ListView(children: [
+          SizedBox(height: 75.0),
+          Container(
+              height: 125.0,
+              width: 200.0,
+              child: Stack(
+                children: [
+                  Text('Hello',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat sans-serif',
+                          fontSize: 60.0,
+                          fontWeight: FontWeight.bold)),
+                  Positioned(
+                      top: 50.0,
+                      child: Text('There',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat sans-serif',
+                              fontSize: 60.0,
+                              fontWeight: FontWeight.bold))),
+                  Positioned(
+                      top: 97.0,
+                      left: 155.0,
+                      child: Container(
+                          height: 10.0,
+                          width: 10.0,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xffFFDF00))))
+                ],
+              )),
+          SizedBox(height: 25.0),
+          TextFormField(
+              decoration: InputDecoration(
+                  labelText: 'EMAIL',
+                  labelStyle: TextStyle(
+                      fontFamily: 'Montserrat sans-serif',
+                      fontSize: 12.0,
+                      color: Colors.grey.withOpacity(0.5)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  )),
+              onChanged: (value) {
+                this.email = value;
+              },
+              validator: (value) =>
+                  value.isEmpty ? 'Email is required' : validateEmail(value)),
+          TextFormField(
+              decoration: InputDecoration(
+                  labelText: 'PASSWORD',
+                  labelStyle: TextStyle(
+                      fontFamily: 'Montserrat sans',
+                      fontSize: 12.0,
+                      color: Colors.grey.withOpacity(0.5)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  )),
+              obscureText: true,
+              onChanged: (value) {
+                this.password = value;
+              },
+              validator: (value) =>
+                  value.isEmpty ? 'Password is required' : null),
+          SizedBox(height: 5.0),
+          GestureDetector(
+              onTap: () {},
+              child: Container(
+                  alignment: Alignment(1.0, 0.0),
+                  padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                  child: InkWell(
+                      child: Text('Forgot Password',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Montserrat sans',
+                              fontSize: 11.0,
+                              decoration: TextDecoration.underline))))),
+          SizedBox(height: 25.0),
+          isLoading
+              ? SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : SizedBox(),
+          SizedBox(height: 25.0),
+          GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignUp()),
-              );
+              if (checkFields()) {
+                signIn(scaffoldContext);
+              }
             },
-            child: Text('Register',
-                style: TextStyle(
+            child: Container(
+                height: 50.0,
+                child: Material(
+                    borderRadius: BorderRadius.circular(25.0),
+                    shadowColor: Colors.black,
                     color: Colors.black,
-                    fontFamily: 'Montserrat sans-serif',
-                    decoration: TextDecoration.underline)))
-      ])
-    ]));
+                    elevation: 7.0,
+                    child: Center(
+                        child: Text('LOGIN',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Montserrat sans'))))),
+          ),
+          SizedBox(height: 25.0),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('New to Ride ?'),
+            SizedBox(width: 5.0),
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
+                },
+                child: Text('Register',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Montserrat sans-serif',
+                        decoration: TextDecoration.underline)))
+          ])
+        ]));
+  }
+
+  Future<void> signIn(BuildContext scaffoldContext) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await AuthService().signIn(email, password, scaffoldContext);
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }
-
