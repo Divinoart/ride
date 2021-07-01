@@ -8,6 +8,8 @@ class PostRideScreen extends StatefulWidget {
 }
 
 class _PostRideScreenState extends State<PostRideScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final Size deviceSize = MediaQuery.of(context).size;
@@ -67,174 +69,180 @@ class _PostRideScreenState extends State<PostRideScreen> {
               SizedBox(
                 height: 60,
               ),
-              TextField(
-                maxLines: 15,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontFamily: 'Montserrat'),
-                decoration: InputDecoration(
-                  fillColor: Colors.blueGrey.withOpacity(0.1),
-                  filled: true,
-                  hintText: 'Other suggestions(optional)',
-                  hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      fontFamily: 'Montserrat'),
-                  errorStyle: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Montserrat'),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      )),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: const BorderSide(
-                        color: Colors.grey,
-                      )),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: BorderSide(
-                        color: Colors.black,
-                      )),
-                  errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                      )),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: TextFormField(
-                          maxLength: 2,
-                          style: TextStyle(
-                              color: Colors.black, fontFamily: 'Montserrat'),
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              hintText: 'MM',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 12.0,
-                                  color: Colors.grey.withOpacity(0.5)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              )),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please select the month of this ride';
-                            }
-                            return null;
-                          })),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: TextFormField(
-                          maxLength: 2,
-                          style: TextStyle(
-                              color: Colors.black, fontFamily: 'Montserrat'),
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              hintText: 'DD',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 12.0,
-                                  color: Colors.grey.withOpacity(0.5)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              )),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please select the day of this ride';
-                            }
-                            return null;
-                          })),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: TextFormField(
-                          maxLength: 4,
-                          style: TextStyle(
-                              color: Colors.black, fontFamily: 'Montserrat'),
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                              hintText: 'YYYY',
-                              hintStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 12.0,
-                                  color: Colors.grey.withOpacity(0.5)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              )),
-                          onChanged: (value) {},
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please select the year of this ride';
-                            }
-                            return null;
-                          }))
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                      height: 50.0,
-                      width: 200,
-                      child: Material(
-                          shadowColor: Colors.black,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(
-                                color: Colors.black,
-                              )),
-                          child: Center(
-                              child: Text('Choose Time',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat')))))),
-              SizedBox(
-                height: 70,
-              ),
-              GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                      height: 50.0,
-                      width: 300,
-                      child: Material(
-                          borderRadius: BorderRadius.circular(25.0),
-                          shadowColor: Colors.black,
+              Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    TextField(
+                      maxLines: 15,
+                      style: TextStyle(
                           color: Colors.black,
-                          elevation: 7.0,
-                          child: Center(
-                              child: Text('Post',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat')))))),
+                          fontSize: 15,
+                          fontFamily: 'Montserrat'),
+                      decoration: InputDecoration(
+                        fillColor: Colors.blueGrey.withOpacity(0.1),
+                        filled: true,
+                        hintText: 'Description..',
+                        hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15,
+                            fontFamily: 'Montserrat'),
+                        errorStyle: TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Montserrat'),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            )),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            )),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(
+                              color: Colors.black,
+                            )),
+                        errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: const BorderSide(
+                              color: Colors.red,
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: TextFormField(
+                                maxLength: 2,
+                                style: TextStyle(
+                                    color: Colors.black, fontFamily: 'Montserrat'),
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    hintText: 'MM',
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 12.0,
+                                        color: Colors.grey.withOpacity(0.5)),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black),
+                                    )),
+                                onChanged: (value) {},
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please select the month of this ride';
+                                  }
+                                  return null;
+                                })),
+                        SizedBox(
+                          width: 40,
+                        ),
+                        SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: TextFormField(
+                                maxLength: 2,
+                                style: TextStyle(
+                                    color: Colors.black, fontFamily: 'Montserrat'),
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    hintText: 'DD',
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 12.0,
+                                        color: Colors.grey.withOpacity(0.5)),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black),
+                                    )),
+                                onChanged: (value) {},
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please select the day of this ride';
+                                  }
+                                  return null;
+                                })),
+                        SizedBox(
+                          width: 40,
+                        ),
+                        SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: TextFormField(
+                                maxLength: 4,
+                                style: TextStyle(
+                                    color: Colors.black, fontFamily: 'Montserrat'),
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    hintText: 'YYYY',
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 12.0,
+                                        color: Colors.grey.withOpacity(0.5)),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black),
+                                    )),
+                                onChanged: (value) {},
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please select the year of this ride';
+                                  }
+                                  return null;
+                                }))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                            height: 50.0,
+                            width: 200,
+                            child: Material(
+                                shadowColor: Colors.black,
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    side: BorderSide(
+                                      color: Colors.black,
+                                    )),
+                                child: Center(
+                                    child: Text('Choose Time',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat')))))),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                            height: 50.0,
+                            width: 300,
+                            child: Material(
+                                borderRadius: BorderRadius.circular(25.0),
+                                shadowColor: Colors.black,
+                                color: Colors.black,
+                                elevation: 7.0,
+                                child: Center(
+                                    child: Text('Post',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat')))))),
+              ])),
               SizedBox(
                 height: 70,
               ),
