@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riding_app/ui/itemviews/drive_request_item.dart';
+import 'package:riding_app/ui/ride/post_ride_screen.dart';
+import 'package:riding_app/ui/ride/ride_details_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -72,10 +74,23 @@ class _DashboardState extends State<Dashboard> {
             ListView.builder(
                 itemCount: 5,
                 itemBuilder: (BuildContext context, int positon) {
-                  return DriveRequestItem();
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RideDetailsScreen()),
+                        );
+                      },
+                      child: DriveRequestItem());
                 }),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PostRideScreen()),
+                );
+              },
               child: Container(
                   height: 50.0,
                   width: 300,

@@ -30,14 +30,14 @@ class DriveRequestItem extends StatelessWidget {
             ),
             SizedBox(
               width: deviceSize.width - 200,
-              child: Text('Hi, I am driving to SLC fomr Rexburg and then from SLC back to Rexburg',
+              child: Text('Hi, I am driving to SLC from Rexburg and then from SLC back to Rexburg',
                 maxLines: 4,
                 style: TextStyle(
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
                   fontFamily: 'Montserrat'
                   )),
-            )
+            ),
+            
           ],
         ),
       ),
