@@ -21,6 +21,7 @@ class _DashboardState extends State<Dashboard> {
         preferredSize: Size.fromHeight(150),
         child: Container(
           width: deviceSize.width,
+          padding: EdgeInsets.symmetric(horizontal: 15),
           height: Size.fromHeight(150).height,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,12 +34,12 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: SizedBox(
-                  height: 60,
-                  width: 60,
+                  height: 50,
+                  width: 50,
                   child: Center(
                       child: Icon(
                     Icons.menu_outlined,
-                    size: 30,
+                    size: 25,
                   )),
                 ),
               ),
@@ -46,7 +47,7 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   Icon(
                     Icons.notifications_outlined,
-                    size: 25,
+                    size: 20,
                   ),
                   SizedBox(
                     width: 20,
@@ -72,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
         child: Stack(
           children: [
             ListView.builder(
-                itemCount: 5,
+                itemCount: 7,
                 itemBuilder: (BuildContext context, int positon) {
                   return GestureDetector(
                       onTap: () {
@@ -84,7 +85,11 @@ class _DashboardState extends State<Dashboard> {
                       },
                       child: DriveRequestItem());
                 }),
-            GestureDetector(
+            Positioned(
+              bottom: 30,
+              left: 120, 
+              right: 120,
+              child: GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -93,7 +98,7 @@ class _DashboardState extends State<Dashboard> {
               },
               child: Container(
                   height: 50.0,
-                  width: 300,
+                  width: 100,
                   child: Material(
                       borderRadius: BorderRadius.circular(25.0),
                       shadowColor: Colors.black,
@@ -105,6 +110,7 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Montserrat'))))),
+              )
             ),
           ],
         ),

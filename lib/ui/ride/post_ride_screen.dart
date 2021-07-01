@@ -34,12 +34,12 @@ class _PostRideScreenState extends State<PostRideScreen> {
                     ),
                     clipBehavior: Clip.antiAlias,
                     child: SizedBox(
-                      height: 60,
-                      width: 60,
+                      height: 50,
+                      width: 50,
                       child: Center(
                           child: Icon(
                         Icons.menu_outlined,
-                        size: 30,
+                        size: 25,
                       )),
                     ),
                   ),
@@ -74,7 +74,8 @@ class _PostRideScreenState extends State<PostRideScreen> {
                     fontSize: 15,
                     fontFamily: 'Montserrat'),
                 decoration: InputDecoration(
-                  fillColor: Colors.grey.withOpacity(0.2),
+                  fillColor: Colors.blueGrey.withOpacity(0.1),
+                  filled: true,
                   hintText: 'Other suggestions(optional)',
                   hintStyle: TextStyle(
                       color: Colors.grey,
@@ -197,57 +198,46 @@ class _PostRideScreenState extends State<PostRideScreen> {
                 height: 20,
               ),
               GestureDetector(
-              onTap: () {},
-              child: Container(
-                  height: 50.0,
-                  width: 300,
-                  child: Material(
-                      borderRadius: BorderRadius.circular(25.0),
-                      shadowColor: Colors.black,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        side: BorderSide(
-                          color: Colors.black,
-                        
-                        )
-                      ),
-                      elevation: 7.0,
-                      child: Center(
-                        child: Text('Choose Time',
-                            style: TextStyle(
+                  onTap: () {},
+                  child: Container(
+                      height: 50.0,
+                      width: 200,
+                      child: Material(
+                          shadowColor: Colors.black,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat'
-                              )
-                            )
-                          )
-                        )
-                      )
-                    ),
+                              )),
+                          child: Center(
+                              child: Text('Choose Time',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat')))))),
               SizedBox(
                 height: 70,
               ),
               GestureDetector(
-              onTap: () {},
-              child: Container(
-                  height: 50.0,
-                  width: 300,
-                  child: Material(
-                      borderRadius: BorderRadius.circular(25.0),
-                      shadowColor: Colors.black,
-                      color: Colors.black,
-                      elevation: 7.0,
-                      child: Center(
-                          child: Text('Post',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat')))))),
+                  onTap: () {},
+                  child: Container(
+                      height: 50.0,
+                      width: 300,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(25.0),
+                          shadowColor: Colors.black,
+                          color: Colors.black,
+                          elevation: 7.0,
+                          child: Center(
+                              child: Text('Post',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat')))))),
               SizedBox(
                 height: 70,
               ),
-
             ],
           ),
         ),
