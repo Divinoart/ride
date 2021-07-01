@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:riding_app/loginform.dart';
+import 'package:riding_app/ui/auth/loginform.dart';
 import 'package:riding_app/services/authservice.dart';
 
 class SignUp extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:riding_app/loginform.dart';
-import 'signup.dart';
+import 'package:riding_app/ui/auth/loginform.dart';
+import 'package:riding_app/ui/auth/signup.dart';
 
 class Login extends StatefulWidget {
   @override
